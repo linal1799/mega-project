@@ -1,0 +1,78 @@
+@extends('dashboard')
+@section('content')
+ {{-- <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
+        <input type="search" placeholder="Search.." name="product_search">
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form> --}}
+      <li class="btn-group d-lg-inline-flex d-none">
+        <div class="app-menu">
+            <div class="search-bx mx-5">
+                <form>
+                    <div class="input-group">
+                      <input type="search" class="form-control"  placeholder="Search" aria-label="Search" aria-describedby="button-addon2" name="product_search">
+                      <div class="input-group-append">
+                        <button class="btn" type="submit" id="button-addon3"><i data-feather="search"></i></button>
+                      </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </li>
+</ul>
+</div>
+<table id='examples' class="table table-bordered table-striped dataTable" style="width:100%;" role="grid" area-describedby="example5_info">
+
+    @if (session('productsuccess'))
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+            class="bi bi-check-circle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Success:">
+            <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+        </svg>&nbsp;&nbsp;
+        <div><strong>{{ session('productsuccess') }}</strong></div>
+    </div><br>
+@endif
+    <thead>
+        <li><a href="{{route('products.create')}}"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Add Products</a></li>
+
+        <tr allign="center">
+            <th>ID</th>
+            <th>NAME</th>
+            <th>DESCRIPTION</th>
+            <th>PRICE</th>
+            <th>DISCOUNT</th>
+            <th>SECRET_ID</th>
+            <th>STATUS</th>
+            <th>IMAGE</th>
+            <th>ACTIONS</th>
+
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach ($product as $product)
+        <tr allign="center">
+            <td>{{$product->id}}</td>
+            <td>{{$product->name}}</td>
+            <td>{{$product->description}}</td>
+            <td>{{$product->price}}</td>
+            <td>{{$product->discount}}</td>
+            <td>{{@$product->secret->name }}</td>
+            <td>{{$product->status}}</td>
+            <td>
+                @if ($product->image == 'NULL')
+                <img src="{{'product.png'}}" width="50" class="ronded">
+                @else
+                 <img src="{{asset('products_images/'.$product->image)}}" width="50" class="rounded">
+                @endif
+            </td>
+            <td>
+              <a href="{{route('products.edit',$product->id)}}" > <button type="button" class="btn btn-success">edit</button></a>
+              <a href="{{route('products.delete',$product->id)}}"> <button type="button" class="btn btn-danger">delete</button></a>
+             </td>
+
+        @endforeach
+
+
+       @endsection
